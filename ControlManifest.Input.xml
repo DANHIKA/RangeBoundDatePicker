@@ -5,7 +5,7 @@
     </external-service-usage>
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     
-    <property name="DateAndTime" display-name-key="DateAndTime" description-key="DateAndTime" of-type="DateAndTime.DateOnly" usage="bound" required="true" />
+    <property name="DateAndTime" display-name-key="DateAndTime" description-key="DateAndTime" of-type="DateAndTime.DateAndTime" usage="bound" required="true" />
 
     <property name="dateRangeSelector" display-name-key="Range Configuration" description-key="Range Configuration" of-type="Enum" usage="input" required="true">
         <value name="Specific Duration" display-name-key="Specific Duration" description-key="Specific Duration">0</value>
