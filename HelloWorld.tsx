@@ -70,10 +70,19 @@ export class HelloWorld extends React.Component<IHelloWorldProps,IHelloWorldStat
     this.setState({ normalizedRestrictedDates: dts });
   };
 
+  private formatDate = (date?: Date): string => {
+    if (!date) return '';
+    return date.toLocaleDateString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+    });
+  };
+
   private getDatePickerStrings(): IDatePickerStrings {
     return {
       ...defaultDatePickerStrings,
-      isOutOfBoundsErrorMessage: `Date must be between ${this.state.minDate.toLocaleDateString()} and ${this.state.maxDate.toLocaleDateString()}`,
+      isOutOfBoundsErrorMessage: `Date must be between ${this.formatDate(this.state.minDate)} and ${this.formatDate(this.state.maxDate)}`,
     };
   }
 
@@ -106,6 +115,7 @@ export class HelloWorld extends React.Component<IHelloWorldProps,IHelloWorldStat
             showGoToToday={true}                        
             highlightSelectedMonth={true}
 
+            formatDate={this.formatDate}
             allowTextInput={this.props.allowTextInput}
             showMonthPickerAsOverlay={this.props.showMonthPickerAsOverlay}
             showWeekNumbers={this.props.showWeekNumbers}
