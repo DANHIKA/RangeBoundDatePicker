@@ -68,6 +68,17 @@ export class HelloWorld extends React.Component<IHelloWorldProps,IHelloWorldStat
     this.setState({ normalizedRestrictedDates: dts });
   };
 
+  private parseDateFromString = (value: string): Date | null => {
+    if (!value) return null;
+    const parts = value.split('/');
+    if (parts.length !== 3) return null;
+    const month = parseInt(parts[0], 10) - 1;
+    const day = parseInt(parts[1], 10);
+    const year = parseInt(parts[2], 10);
+    const date = new Date(year, month, day);
+    return isNaN(date.getTime()) ? null : date;
+  };
+
   private formatDate = (date?: Date): string => {
     if (!date) return '';
     return date.toLocaleDateString('en-US', {
@@ -105,6 +116,7 @@ export class HelloWorld extends React.Component<IHelloWorldProps,IHelloWorldStat
         showGoToToday={true}
         highlightSelectedMonth={true}
         formatDate={this.formatDate}
+        parseDateFromString={this.parseDateFromString}
         allowTextInput={this.props.allowTextInput}
         showMonthPickerAsOverlay={this.props.showMonthPickerAsOverlay}
         showWeekNumbers={this.props.showWeekNumbers}
