@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Calendar, DatePicker, DefaultButton, defaultCalendarStrings, defaultDatePickerStrings, ICalendarDayProps, ICalendarProps, ICalendarStyles, IDatePickerStrings, IDatePickerStyles, mergeStyleSets } from '@fluentui/react';
+import { Calendar, DatePicker, defaultDatePickerStrings, ICalendarDayProps, IDatePickerStrings, mergeStyleSets } from '@fluentui/react';
 
 export interface IHelloWorldProps {
   minDate: Date;
@@ -19,7 +19,6 @@ export interface IHelloWorldProps {
 interface IHelloWorldState {
   minDate: Date;
   maxDate: Date;
-  initialSelectedDate?:Date;
   currentSelectedDate?:Date | null | undefined;
   normalizedRestrictedDates: string[] ;
 }
@@ -31,7 +30,6 @@ export class HelloWorld extends React.Component<IHelloWorldProps,IHelloWorldStat
     this.state = {
       minDate: props.minDate,
       maxDate : props.maxDate,
-      initialSelectedDate : props.selectedDate,
       currentSelectedDate : props.selectedDate,
       normalizedRestrictedDates: this.props.restrictedDates.map(date => this.normalizeDate(date))
     };
@@ -92,59 +90,36 @@ export class HelloWorld extends React.Component<IHelloWorldProps,IHelloWorldStat
   }
 
   
-  private resetDatePicker = () => {
-      this.setState({ currentSelectedDate : this.state.initialSelectedDate});
-      this.props.onSelectDate(this.state.initialSelectedDate);
-  };
-
-
   public render(): React.ReactNode {
     return (
-      <>
-        <div className={styles.container}>
-          <DatePicker
-            className={styles.datePicker}
-            placeholder="Select a date..."
-            ariaLabel="Select a date"
-            strings={this.getDatePickerStrings()}
-            minDate={this.state.minDate}
-            maxDate={this.state.maxDate}            
-            onSelectDate={this.updateSelectedDate}
-            // eslint-disable-next-line react/jsx-no-duplicate-props
-            value={this.state.currentSelectedDate??undefined}
-            showGoToToday={true}                        
-            highlightSelectedMonth={true}
-
-            formatDate={this.formatDate}
-            allowTextInput={this.props.allowTextInput}
-            showMonthPickerAsOverlay={this.props.showMonthPickerAsOverlay}
-            showWeekNumbers={this.props.showWeekNumbers}
-            isRequired={this.props.isRequired}
-            disabled={this.props.isDisable}
-            calendarAs={(props) => <Calendar {...props} calendarDayProps={this.calendarDayProps} />}
-          />    
-          <DefaultButton
-            disabled={this.props.isDisable}
-            id={"DefaultButton"}
-            onClick={this.resetDatePicker}
-            text={"Revert"}
-          />      
-        </div>
-      </>
+      <DatePicker
+        className={styles.datePicker}
+        placeholder="Select a date..."
+        ariaLabel="Select a date"
+        strings={this.getDatePickerStrings()}
+        minDate={this.state.minDate}
+        maxDate={this.state.maxDate}
+        onSelectDate={this.updateSelectedDate}
+        // eslint-disable-next-line react/jsx-no-duplicate-props
+        value={this.state.currentSelectedDate??undefined}
+        showGoToToday={true}
+        highlightSelectedMonth={true}
+        formatDate={this.formatDate}
+        allowTextInput={this.props.allowTextInput}
+        showMonthPickerAsOverlay={this.props.showMonthPickerAsOverlay}
+        showWeekNumbers={this.props.showWeekNumbers}
+        isRequired={this.props.isRequired}
+        disabled={this.props.isDisable}
+        calendarAs={(props) => <Calendar {...props} calendarDayProps={this.calendarDayProps} />}
+      />
     );
   }
 }
 
 
 const styles = mergeStyleSets({
-  container: {
-    display: 'flex',
-    alignItems: 'baseline',
-    gap: '10px', // Adjust space between DatePicker and button
-    minWidth: '-webkit-fill-available',
-  },
   datePicker: {
-    flexGrow: 1, // Allows DatePicker to take available space
+    minWidth: '-webkit-fill-available',
   }
 });
 
